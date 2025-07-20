@@ -1,0 +1,69 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: "1.21"
+
+      - name: Build for all platforms
+        run: |
+          mkdir -p dist
+
+          # Linux
+          GOOS=linux GOARCH=amd64 go build -o dist/vcc-linux-amd64 .
+          GOOS=linux GOARCH=arm64 go build -o dist/vcc-linux-arm64 .
+
+          # macOS
+          GOOS=darwin GOARCH=amd64 go build -o dist/vcc-darwin-amd64 .
+          GOOS=darwin GOARCH=arm64 go build -o dist/vcc-darwin-arm64 .
+
+          # Windows
+          GOOS=windows GOARCH=amd64 go build -o dist/vcc-windows-amd64.exe .
+
+          # Make executables (Linux/macOS)
+          chmod +x dist/vcc-linux-*
+          chmod +x dist/vcc-darwin-*
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            dist/*
+          body: |
+            ## VCC ${{ github.ref_name }}
+
+            Download the appropriate binary for your system:
+
+            - **Linux (64-bit)**: `vcc-linux-amd64`
+            - **Linux (ARM64)**: `vcc-linux-arm64`
+            - **macOS (Intel)**: `vcc-darwin-amd64`
+            - **macOS (Apple Silicon)**: `vcc-darwin-arm64`
+            - **Windows (64-bit)**: `vcc-windows-amd64.exe`
+
+            ### Installation:
+            1. Download the file for your system
+            2. Rename to `vcc` (or `vcc.exe` on Windows)
+            3. Make executable: `chmod +x vcc`
+            4. Move to PATH: `mv vcc /usr/local/bin/`
+
+            ### Usage:
+            ```bash
+            vcc catppuccin -v mocha
+            vcc tokyonight -v storm
+            vcc gruvbox -v dark
+            ```
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
