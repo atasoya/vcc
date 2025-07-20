@@ -12,6 +12,7 @@ import (
 )
 
 var gruvboxVariant string
+var gruvboxConfigPath string
 
 var gruvboxCmd = &cobra.Command{
 	Use:   "gruvbox",
@@ -31,7 +32,7 @@ var gruvboxCmd = &cobra.Command{
 
 		fmt.Printf("🪵 Switching to Gruvbox with variant: %s\n", gruvboxVariant)
 
-		err := config.WriteGruvboxConfig(gruvboxVariant)
+		err := config.WriteGruvboxConfig(gruvboxVariant, gruvboxConfigPath)
 		if err != nil {
 			fmt.Println("❌ Failed to write file:", err)
 			os.Exit(1)
@@ -49,5 +50,11 @@ func init() {
 		&gruvboxVariant,
 		"variant", "v", "",
 		"Gruvbox variant (dark, light, hard, soft, material)",
+	)
+
+	gruvboxCmd.Flags().StringVarP(
+		&gruvboxConfigPath,
+		"path", "p", "",
+		"Custom path for the colorscheme config file",
 	)
 }

@@ -12,6 +12,7 @@ import (
 )
 
 var variant string
+var configPath string
 
 // catppuccinCmd represents the catppuccin command
 var catppuccinCmd = &cobra.Command{
@@ -32,7 +33,7 @@ var catppuccinCmd = &cobra.Command{
 
 		fmt.Printf("🌈 Switching to Catppuccin with variant: %s\n", variant)
 
-		err := config.WriteCatppuccinConfig(variant)
+		err := config.WriteCatppuccinConfig(variant, configPath)
 		if err != nil {
 			fmt.Println("❌ Failed to write file:", err)
 			os.Exit(1)
@@ -50,5 +51,11 @@ func init() {
 		&variant,
 		"variant", "v", "",
 		"Catppuccin variant (latte, frappe, macchiato, mocha)",
+	)
+
+	catppuccinCmd.Flags().StringVarP(
+		&configPath,
+		"path", "p", "",
+		"Custom path for the colorscheme config file",
 	)
 }

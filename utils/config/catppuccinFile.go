@@ -5,8 +5,8 @@ import (
 	"os"
 )
 
-func WriteCatppuccinConfig(variant string) error {
-	configPath := os.Getenv("HOME") + "/.config/nvim/lua/plugins/colorscheme.lua"
+func WriteCatppuccinConfig(variant string, customPath string) error {
+	configPath := GetConfigPath(customPath)
 
 	configContent := fmt.Sprintf(`return {
  {
@@ -21,8 +21,4 @@ func WriteCatppuccinConfig(variant string) error {
 }`, variant)
 
 	return os.WriteFile(configPath, []byte(configContent), 0644)
-}
-
-func GetCatppuccinConfigPath() string {
-	return os.Getenv("HOME") + "/.config/nvim/lua/plugins/colorscheme.lua"
 }

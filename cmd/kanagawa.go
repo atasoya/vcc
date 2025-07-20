@@ -12,6 +12,7 @@ import (
 )
 
 var kanagawaVariant string
+var kanagawaConfigPath string
 
 var kanagawaCmd = &cobra.Command{
 	Use:   "kanagawa",
@@ -31,7 +32,7 @@ var kanagawaCmd = &cobra.Command{
 
 		fmt.Printf("🌊 Switching to Kanagawa with variant: %s\n", kanagawaVariant)
 
-		err := config.WriteKanagawaConfig(kanagawaVariant)
+		err := config.WriteKanagawaConfig(kanagawaVariant, kanagawaConfigPath)
 		if err != nil {
 			fmt.Println("❌ Failed to write file:", err)
 			os.Exit(1)
@@ -49,5 +50,11 @@ func init() {
 		&kanagawaVariant,
 		"variant", "v", "",
 		"Kanagawa variant (wave, dragon, lotus)",
+	)
+
+	kanagawaCmd.Flags().StringVarP(
+		&kanagawaConfigPath,
+		"path", "p", "",
+		"Custom path for the colorscheme config file",
 	)
 }

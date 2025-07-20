@@ -12,6 +12,7 @@ import (
 )
 
 var rosepineVariant string
+var rosepineConfigPath string
 
 var rosepineCmd = &cobra.Command{
 	Use:   "rosepine",
@@ -31,7 +32,7 @@ var rosepineCmd = &cobra.Command{
 
 		fmt.Printf("🌹 Switching to Rose Pine with variant: %s\n", rosepineVariant)
 
-		err := config.WriteRosePineConfig(rosepineVariant)
+		err := config.WriteRosePineConfig(rosepineVariant, rosepineConfigPath)
 		if err != nil {
 			fmt.Println("❌ Failed to write file:", err)
 			os.Exit(1)
@@ -49,5 +50,11 @@ func init() {
 		&rosepineVariant,
 		"variant", "v", "",
 		"Rose Pine variant (main, moon, dawn)",
+	)
+
+	rosepineCmd.Flags().StringVarP(
+		&rosepineConfigPath,
+		"path", "p", "",
+		"Custom path for the colorscheme config file",
 	)
 }

@@ -12,6 +12,7 @@ import (
 )
 
 var tokyoVariant string
+var tokyoConfigPath string
 
 var tokyonightCmd = &cobra.Command{
 	Use:   "tokyonight",
@@ -31,7 +32,7 @@ var tokyonightCmd = &cobra.Command{
 
 		fmt.Printf("🌃 Switching to Tokyo Night with variant: %s\n", tokyoVariant)
 
-		err := config.WriteTokyoNightConfig(tokyoVariant)
+		err := config.WriteTokyoNightConfig(tokyoVariant, tokyoConfigPath)
 		if err != nil {
 			fmt.Println("❌ Failed to write file:", err)
 			os.Exit(1)
@@ -49,5 +50,11 @@ func init() {
 		&tokyoVariant,
 		"variant", "v", "",
 		"Tokyo Night variant (storm, night, day, moon)",
+	)
+
+	tokyonightCmd.Flags().StringVarP(
+		&tokyoConfigPath,
+		"path", "p", "",
+		"Custom path for the colorscheme config file",
 	)
 }
