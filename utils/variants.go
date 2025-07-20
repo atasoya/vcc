@@ -63,3 +63,11 @@ func RosePineVariants() *VariantSet {
 func GetDefaultRosePineVariant() string {
 	return "main"
 }
+
+func KanagawaVariants() *VariantSet {
+	return NewVariantSet([]string{"wave", "dragon", "lotus"})
+}
+
+func GetDefaultKanagawaVariant() string {
+	return "wave"
+}
