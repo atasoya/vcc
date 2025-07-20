@@ -55,3 +55,11 @@ func GruvboxVariants() *VariantSet {
 func GetDefaultGruvboxVariant() string {
 	return "dark"
 }
+
+func RosePineVariants() *VariantSet {
+	return NewVariantSet([]string{"main", "moon", "dawn"})
+}
+
+func GetDefaultRosePineVariant() string {
+	return "main"
+}
