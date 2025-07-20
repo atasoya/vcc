@@ -39,3 +39,11 @@ func CatppuccinVariants() *VariantSet {
 func GetDefaultCatppuccinVariant() string {
 	return "mocha"
 }
+
+func TokyoNightVariants() *VariantSet {
+	return NewVariantSet([]string{"storm", "night", "day", "moon"})
+}
+
+func GetDefaultTokyoNightVariant() string {
+	return "storm"
+}
