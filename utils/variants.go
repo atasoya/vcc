@@ -47,3 +47,11 @@ func TokyoNightVariants() *VariantSet {
 func GetDefaultTokyoNightVariant() string {
 	return "storm"
 }
+
+func GruvboxVariants() *VariantSet {
+	return NewVariantSet([]string{"dark", "light", "hard", "soft", "material"})
+}
+
+func GetDefaultGruvboxVariant() string {
+	return "dark"
+}
